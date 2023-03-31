@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Models\TableUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $table_users = TableUser::all();
+    return view('welcome',['table_users'=>$table_users]);
 });
+
+Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+Route::get('/user/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
+Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
